@@ -41,9 +41,9 @@ $bookTable->addScope('year', function($query, $year) {
     return $query->where('year', $year);
 });
 
+$books = $bookTable->year(2020);
+
 // helpers
 $latest = $bookTable->latest();
 $oldest = $bookTable->oldest();
-
-$books = $bookTable->year(2020);
 ```
