@@ -1,4 +1,4 @@
-<h1>Redis ORM abstraction for a Laravel Project</h1>
+<h1>Redis ORM abstraction for the Laravel Framework</h1>
 
 ```php
 use Morbihanet\RedisSQL\RedisSQL;
