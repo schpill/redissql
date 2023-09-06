@@ -1,0 +1,262 @@
+
+.affix {
+    position: fixed;
+}
+
+body, .table {
+    font-family: Oswald, serif;
+    font-weight: 300;
+    background: #292A30;
+    color: #f1f1f1;
+    font-size: 18px;
+}
+
+.table {
+    font-family: Questrial, serif;
+}
+
+.table th {
+    background: #000;
+    color: #fff;
+    font-size: 18px;
+}
+
+.table tr:hover, .table tr:hover a {
+    background: #888;
+    color: #292A30;
+}
+
+::selection {
+    color: #f4f4f4;
+    background: #B4924A;
+}
+
+.yellowText, .table tr:hover a:hover {
+    color: #B4924A;
+}
+
+a {
+    color: #f1f1f1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.half, .third, .fourth, .fifth, .sixth {
+    float: left;
+    min-height: 1px;
+    margin-right: 2%;
+}
+
+.half {
+    width: 49%;
+}
+
+.third {
+    width: 32%;
+}
+
+.fourth {
+    width: 23.5%;
+}
+
+.fifth {
+    width: 18.4%;
+}
+
+.sixth {
+    width: 15%;
+}
+
+.half:last-child, .third:last-child, .fourth:last-child, .fifth:last-child, .sixth:last-child {
+    margin-right: 0;
+}
+section {
+    margin-top: 50px;
+    max-width: 100% !important;
+    *zoom: 1;
+}
+
+section:before,
+section:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+
+section:after {
+    clear: both;
+}
+
+.title {
+    padding: 10px;
+    border: solid 1px;
+}
+
+.bordered {
+    border: solid 1px;
+    padding: 10px;
+}
+
+button, input, textarea, select {
+    color: #f1f1f1;
+    background: #292A30;
+    border: solid 1px;
+    padding: 10px;
+    margin-bottom: 25px;
+    margin-right: 25px;
+}
+
+.input-small, .input-medium, #search button, #search input, #search textarea, #search select {
+    color: #f1f1f1;
+    background: #333;
+    border: solid 1px;
+    padding: 4px;
+    margin-bottom: 12px;
+    margin-right: 12px;
+    font-size: 16px;
+    font-family: Questrial, serif;
+    max-width: 100px;
+}
+
+.input-medium {
+    min-width: 100%;
+}
+
+.link, .title, button {
+    cursor: pointer;
+}
+
+.link:hover {
+    color: #B4924A;
+}
+
+.title:hover, button:hover, a:hover, #search button:hover {
+    color: #B4924A;
+}
+
+.inRow {
+    margin-bottom: 25px;
+}
+
+.error {
+    background: #b1b1b1;
+    color: red;
+    border: solid 2px red;
+    padding: 20px;
+}
+
+.titleTable {
+    margin-bottom: 35px;
+    border-bottom: dotted 2px;
+    padding: 15px;
+}
+
+.true {
+    color: green;
+}
+
+.false {
+    color: red;
+}
+
+.infos {
+    font-family: Questrial, serif;
+    font-size: 16px;
+}
+
+.copyright {
+    font-family: Questrial, serif;
+    font-size: 12px;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.active .page-link {
+    color: #d5b163 !important;
+    border-color: #d5b163 !important;
+    background: #403E3B !important;
+}
+
+.page-link {
+    font-size: 75%;
+    background: #d1d1d1 !important;
+    color: #292A30 !important;
+}
+
+.page-link:hover {
+    color: #B4924A !important;
+    border-color: #B4924A !important;
+}
+
+.first {
+    margin-top: 30px;
+}
+
+.fk, .fk:hover {
+    color: pink;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+.listTable {
+    list-style: none;
+    padding: 0;
+}
+
+.linkTable {
+    font-weight: 300;
+}
+
+.yellow {
+    border-bottom: dotted 1px #B4924A;
+    border-top: dotted 1px #B4924A;
+    padding: 25px;
+    background: #444;
+    font-size: 65%;
+}
+
+.table tr:last-child {
+    border-bottom: solid 1px;
+}
+
+.alert a {
+    color: #000 !important;
+    font-weight: normal !important;
+}
+
+.input-sm {
+    width: 50% !important;
+}
+
+.rightContent {
+    margin-top: 2em !important;
+    margin-left: 2em !important;
+}
+
+.rightContent h1 {
+    margin-bottom: 1em !important;
+}
+
+.mt-1 {
+    margin-top: 1em !important;
+}
+
+.mb-2 {
+    margin-bottom: 2em !important;
+}
+
+.linkRelation, .linkRelation:hover {
+    color: lightpink !important;
+    font-weight: bold;
+    font-size: 0.75em;
+}
+
+.linkRelation:first-letter {
+    text-transform: uppercase !important;
+}
+
+.btn-warning {
+    background-color: #B4924A !important;
+    border-color: #B4924A !important;
+}

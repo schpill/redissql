@@ -1,0 +1,23 @@
+{
+  "name": "schpill/redissql",
+  "description": "Redis ORM abstraction for the Laravel Framework",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.1",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "barryvdh/laravel-dompdf": "^2.0",
+    "meilisearch/meilisearch-php": "v1.0.0"
+  },
+  "require-dev": {
+    "mockery/mockery": "~1.0",
+    "phpunit/phpunit": "~8.5|^9.5.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Morbihanet\\RedisSQL\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
