@@ -6,10 +6,12 @@ use Morbihanet\RedisSQL\RedisSQL;
 $bookTable = RedisSQL::forTable('book');
 $authorTable = RedisSQL::forTable('author');
 
-$author = $authorTable->firstOrCreate([
+// create
+$author = $authorTable->create([
     'name' => 'John Doe'
 ]);
 
+// firstOrCreate
 $bookTable->firstOrCreate([
     'title' => 'My Book',
     'author_id' => $author->id,
@@ -27,7 +29,7 @@ $authorFirst = $first->author;
 $books = $authorFirst->books;
 
 // queries
-$books = $bookTable->where('year', '>', 2010)->where('price', '<', 20);
+$books = $bookTable->where('year', '>', 2010)->where('price', '<', 20)->orderByDesc('price');
 $count = $books->count();
 
 // aggregates
@@ -37,11 +39,11 @@ $max = $bookTable->max('price');
 $min = $bookTable->min('price');
 
 // scopes
-$bookTable->addScope('year', function($query, $year) {
+$bookTable->addScope('forYear', function($query, $year) {
     return $query->where('year', $year);
 });
 
-$books = $bookTable->year(2020);
+$books = $bookTable->forYear(2020);
 
 // helpers
 $latest = $bookTable->latest();
