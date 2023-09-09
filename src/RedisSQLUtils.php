@@ -339,6 +339,16 @@ class RedisSQLUtils
             case 'not levenshtein':
             case 'not fuzzy':
                 return levenshtein($actual, $value) > mb_strlen($value) / 3;
+            case 'soundex':
+                return soundex($actual) === soundex($value);
+            case 'not soundex':
+                return soundex($actual) !== soundex($value);
+            case 'similar text':
+            case 'similar_text':
+                return similar_text($actual, $value) > 0;
+            case 'not similar text':
+            case 'not similar_text':
+                return similar_text($actual, $value) === 0;
             case 'hash':
                 return password_verify($value, $actual);
             case 'not hash':
@@ -347,6 +357,24 @@ class RedisSQLUtils
                 return abs($actual - $value) < 0.0000001;
             case 'not almost':
                 return abs($actual - $value) >= 0.0000001;
+            case 'contains':
+                return Str::contains($actual, $value);
+            case 'not contains':
+                return !Str::contains($actual, $value);
+            case 'starts with':
+            case 'starts_with':
+                return Str::startsWith($actual, $value);
+            case 'not starts with':
+            case 'not starts_with':
+                return !Str::startsWith($actual, $value);
+            case 'ends with':
+            case 'ends_with':
+                return Str::endsWith($actual, $value);
+            case 'not ends with':
+            case 'not ends_with':
+                return !Str::endsWith($actual, $value);
+            case 'is json':
+                return static::isJSON($actual);
         }
 
         return false;
@@ -354,7 +382,25 @@ class RedisSQLUtils
 
     public static function isPost(): bool
     {
-        return !empty($_POST);
+        return !empty($_POST ?? []);
+    }
+
+    public static function record(array $data, string $table = 'internalrecord'): RedisSQL
+    {
+        return RedisSQLMemory::forTable($table)->create($data, true);
+    }
+
+    public static function records(array|callable $rows, string $table ='internalrecord'): RedisSQLCollection
+    {
+        if (!is_callable($rows)) {
+            $rows = function() use ($rows, $table) {
+                foreach ($rows as $row) {
+                    yield static::record($row, $table);
+                }
+            };
+        }
+
+        return new RedisSQLCollection($rows);
     }
 
     public static function getMimeType(string $filename): string

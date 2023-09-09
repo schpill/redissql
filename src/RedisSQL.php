@@ -1008,6 +1008,11 @@ class RedisSQL implements ArrayAccess
         return $this;
     }
 
+    final public function macro(string $name, callable $callback): self
+    {
+        return $this->addScope($name, $callback);
+    }
+
     /** @var RedisSQLFileCache|\Illuminate\Redis\RedisManager|null  */
     protected $_engine = null;
 

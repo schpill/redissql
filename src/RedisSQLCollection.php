@@ -605,18 +605,8 @@ class RedisSQLCollection extends LazyCollection
 
     public function __call($method, $parameters): mixed
     {
-        if ($this->isNotEmpty()) {
-            $callable = static::$scopes[$this->model?->guessTable()][$method] ?? null;
-
-            if ($callable && is_callable($callable)) {
-                return $callable($this, ...$parameters);
-            }
-        }
-
-        foreach (static::$scopes as $table => $scopes) {
-            if (isset($scopes[$method])) {
-                return null;
-            }
+        if ($callable = (static::$scopes[$this->model?->guessTable()][$method] ?? null)) {
+            return $callable($this, ...$parameters);
         }
 
         if (str_starts_with($method, 'findBy') && strlen($method) > 6) {

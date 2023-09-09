@@ -557,4 +557,78 @@ class RedisSQLFileCache implements ArrayAccess
 
         return array_diff($data1, $data2);
     }
+
+    public function hmset(string $key, array $data): self
+    {
+        foreach ($data as $field => $value) {
+            $this->hset($key, $field, $value);
+        }
+
+        return $this;
+    }
+
+    public function hmget(string $key, array $fields): array
+    {
+        $data = [];
+
+        foreach ($fields as $field) {
+            $data[$field] = $this->hget($key, $field);
+        }
+
+        return $data;
+    }
+
+    public function hmdel(string $key, array $fields): bool
+    {
+        foreach ($fields as $field) {
+            $this->hdel($key, $field);
+        }
+
+        return true;
+    }
+
+    public function remember(string $key, int $ttl, callable $callback): mixed
+    {
+        if (!$content = $this->get($key)) {
+            $this->set($key, $content = $callback($this), $ttl);
+        }
+
+        return $content;
+    }
+
+    public function flush(): bool
+    {
+        return $this->destroyDirectory();
+    }
+
+    public function expire(string $key, int $ttl): bool
+    {
+        if ($this->has($key)) {
+            $this->set($key, $this->get($key), $ttl);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function expiretime(string $key): int
+    {
+        if ($this->has($key)) {
+            $data = file_get_contents($this->getFile($key));
+
+            if (false === $data) {
+                return 0;
+            }
+
+            $data = explode("%%$$", $data, 2);
+
+            if (count($data) === 2) {
+                return current($data);
+            }
+
+        }
+
+        return 0;
+    }
 }
