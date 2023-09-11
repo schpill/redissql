@@ -856,18 +856,24 @@ class RedisSQL implements ArrayAccess
         );
     }
 
-    final public function index(bool $withTimestamps = false): self
+    final public function index(bool $withTimestamps = false): mixed
     {
         if (isset($this['id'])) {
             RedisSQLUtils::meilisearch_add_document($this->scout()->getUid(), $this->getIndexedData($withTimestamps));
+
+            return $this;
         }
 
-        return $this;
+        return $this->all()->index($withTimestamps);
     }
 
-    final public function unindex(): array
+    final public function unindex(): mixed
     {
-        return $this->scout()->deleteDocument($this['id']);
+        if (isset($this['id'])) {
+            return $this->scout()->deleteDocument($this['id']);
+        }
+
+        return $this->all()->unindex();
     }
 
     final public function setIndexData(array|callable $data): self

@@ -13,9 +13,10 @@ Add service provider to your config/app.php file:
 ]
 ```
 
-<p><u>No need to create migrations nor models</u></p>
+<p style="margin-top: 50px; color: #ffcc00; font-weight: bold;"><u>No need to create migrations nor models</u></p>
 
 <h2>Some examples</h2>
+
 ```php
 use Morbihanet\RedisSQL\RedisSQL;
 
@@ -37,7 +38,17 @@ $bookModel->firstOrCreate([
 
 $first = $bookModel->first();
 $price = $first->price;
+// or
+$price = $first['price'];
+// or
+$price = $first->>getPrice();
+
 $first->price = 12.99;
+// or
+$first['price'] = 12.99;
+// or
+$first->setPrice(12.99);
+
 $first->save();
 
 // relationships
@@ -48,18 +59,18 @@ $books = $authorFirst->books;
 $books = $bookModel->where('year', '>', 2010)->where('price', '<', 20)->orderByDesc('price');
 $count = $books->count();
 
-// aggregates
-$avg = $bookModel->avg('price');
-$sum = $bookModel->sum('price');
-$max = $bookModel->max('price');
-$min = $bookModel->min('price');
-
 // scopes
 $bookModel->addScope('forYear', function($query, $year) {
     return $query->where('year', $year);
 });
 
 $books = $bookModel->forYear(2020)->where('price', '<', 20)->orderByDesc('price');
+
+// aggregates
+$avg = $bookModel->avg('price');
+$sum = $bookModel->sum('price');
+$max = $bookModel->max('price');
+$min = $bookModel->min('price');
 
 // helpers
 $latest = $bookModel->latest();
@@ -69,4 +80,26 @@ $book = $bookModel->find(1);
 $book = $bookModel->findOrFail(1);
 $book = $bookModel->first();
 $status = $book->delete();
+
+// index
+$bookModel->index();
+
+// search indexed data
+$books = $bookModel->queryfy('My Book');
+
+// unindex
+$bookModel->unindex();
+
+// pivots
+$tagModel = RedisSQL::forTable('tag');
+$firstTag = $tagModel->firstOrCreate(['name' => 'first']);
+$book = $bookModel->first();
+
+$book->attach($firstTag);
+// or
+$book->sync($firstTag);
+
+$tags = $book->tags;
+
+$book->detach($firstTag);
 ```

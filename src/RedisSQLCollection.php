@@ -256,9 +256,9 @@ class RedisSQLCollection extends LazyCollection
         return false;
     }
 
-    final public function index(): self
+    final public function index(bool $withTimestamps = false): self
     {
-        $this->each(fn (RedisSQL $item) => $item->index());
+        $this->each(fn (RedisSQL $item) => $item->index($withTimestamps));
 
         return $this;
     }
