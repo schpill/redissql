@@ -1,6 +1,6 @@
 {
   "name": "schpill/redissql",
-  "description": "Redis ORM abstraction for the Laravel Framework",
+  "description": "Redis ORM abstraction for Laravel Framework",
   "license": "MIT",
   "require": {
     "php": ">=8.1",
