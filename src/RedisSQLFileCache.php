@@ -2,10 +2,9 @@
 
 namespace Morbihanet\RedisSQL;
 
-use ArrayAccess;
 use Throwable;
 
-class RedisSQLFileCache implements ArrayAccess
+class RedisSQLFileCache implements RedisSQLCacheInterface
 {
     protected ?string $path = null;
 
@@ -51,7 +50,11 @@ class RedisSQLFileCache implements ArrayAccess
             return value($default);
         }
 
-        $data = file_get_contents($file);
+        try {
+            $data = file_get_contents($file);
+        } catch (Throwable) {
+            return value($default);
+        }
 
         if (false === $data) {
             return value($default);
@@ -85,7 +88,11 @@ class RedisSQLFileCache implements ArrayAccess
             return false;
         }
 
-        $data = file_get_contents($file);
+        try {
+            $data = file_get_contents($file);
+        } catch (Throwable) {
+            return false;
+        }
 
         if (false === $data) {
             return false;
@@ -122,11 +129,7 @@ class RedisSQLFileCache implements ArrayAccess
 
     public function incr(string $key, int $value = 1): int
     {
-        $old = $this->get($key, 0);
-
-        $new = $old + $value;
-
-        $this->set($key, $new);
+        $this->set($key, $new = $this->get($key, 0) + $value);
 
         return $new;
     }
@@ -630,5 +633,19 @@ class RedisSQLFileCache implements ArrayAccess
         }
 
         return 0;
+    }
+
+    public function keys(): array
+    {
+        $files = glob($this->path . '/*/*.cache');
+
+        return array_map(function ($file) {
+            return str_replace([$this->path, '/', '.cache'], '', $file);
+        }, $files);
+    }
+
+    public function count(): int
+    {
+        return count($this->keys());
     }
 }
