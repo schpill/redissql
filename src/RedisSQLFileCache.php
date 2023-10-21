@@ -44,6 +44,117 @@ class RedisSQLFileCache implements RedisSQLCacheInterface
         return $content;
     }
 
+    public function setnx(string $key, mixed $value): self
+    {
+        if (!$this->has($key)) {
+            $this->set($key, $value);
+        }
+
+        return $this;
+    }
+
+    public function setnxex(string $key, mixed $value, int $ttl): self
+    {
+        if (!$this->has($key)) {
+            $this->set($key, $value, $ttl);
+        }
+
+        return $this;
+    }
+
+    public function setnxFor(string $key, mixed $value, string|int $time): self
+    {
+        if (!$this->has($key)) {
+            $this->setFor($key, $value, $time);
+        }
+
+        return $this;
+    }
+
+    public function seconds(string $key, mixed $value, int $second = 1): self
+    {
+        return $this->setFor($key, $value, $second . ' SECOND');
+    }
+
+    public function second(string $key, mixed $value): self
+    {
+        return $this->seconds($key, $value);
+    }
+
+    public function minutes(string $key, mixed $value, int $minute = 1): self
+    {
+        return $this->setFor($key, $value, $minute . ' MINUTE');
+    }
+
+    public function minute(string $key, mixed $value): self
+    {
+        return $this->minutes($key, $value);
+    }
+
+    public function hours(string $key, mixed $value, int $hour = 1): self
+    {
+        return $this->setFor($key, $value, $hour . ' HOUR');
+    }
+
+    public function hour(string $key, mixed $value): self
+    {
+        return $this->hours($key, $value);
+    }
+
+    public function days(string $key, mixed $value, int $day = 1): self
+    {
+        return $this->setFor($key, $value, $day . ' DAY');
+    }
+
+    public function day(string $key, mixed $value): self
+    {
+        return $this->days($key, $value);
+    }
+
+    public function weeks(string $key, mixed $value, int $week = 1): self
+    {
+        return $this->setFor($key, $value, $week . ' WEEK');
+    }
+
+    public function week(string $key, mixed $value): self
+    {
+        return $this->weeks($key, $value);
+    }
+
+    public function months(string $key, mixed $value, int $month = 1): self
+    {
+        return $this->setFor($key, $value, $month . ' MONTH');
+    }
+
+    public function month(string $key, mixed $value): self
+    {
+        return $this->months($key, $value);
+    }
+
+    public function years(string $key, mixed $value, int $year = 1): self
+    {
+        return $this->setFor($key, $value, $year . ' YEAR');
+    }
+
+    public function year(string $key, mixed $value): self
+    {
+        return $this->years($key, $value);
+    }
+
+    public function forever(string $key, mixed $value): self
+    {
+        return $this->setFor($key, $value, '10 YEARS');
+    }
+
+    public function getset(string $key, mixed $value): mixed
+    {
+        $old = $this->get($key);
+
+        $this->set($key, $value);
+
+        return $old;
+    }
+
     public function get(string $key, mixed $default = null): mixed
     {
         if (!file_exists($file = $this->getFile($key))) {
